@@ -124,6 +124,7 @@ class conversacionModel{
             }
 
 
+
             $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus  
                 FROM hilos h
                 inner join soport16_chatdoc.areas a on h.area=a.id
