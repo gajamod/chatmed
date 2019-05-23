@@ -21,7 +21,7 @@ define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
 //////////////////////////////////////
 // Valores de rutas
 /////////////////////////////////////
-define('FOLDER_PATH', '/chatdoc/');
+define('FOLDER_PATH', '/chatmed/');
 define('ROOT', $_SERVER['DOCUMENT_ROOT']);
 //define('PATH_VIEWS', FOLDER_PATH . 'app/views/');
 define('PATH_VIEWS', 'app/views/');
@@ -51,7 +51,7 @@ define('APPCHARSET', 'utf8');
 //////////////////////////////////////
 // Valores configuracion
 /////////////////////////////////////
-define("BASE_URL", "http://localhost/chatdoc/");//Siempre debe finalizar en '/'
+define("BASE_URL", "http://localhost/chatmed/");//Siempre debe finalizar en '/'
 define("LOGIN_URL", BASE_URL."login/");
 
 

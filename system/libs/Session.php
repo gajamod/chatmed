@@ -106,6 +106,7 @@ class Session
 	}
 
 	//sin permisos
+	/*
 	public static function requiere_sesion($sesion=true,$redireccionar=true){
 		if ($sesion) {
 			if (self::valid_session()) {
@@ -124,13 +125,25 @@ class Session
 		}
 		
 	}
+	*/
+	 //con permisos
 
-	/* //con permisos
+	public static function tiene_permiso($id){
+		$query="SELECT `id`FROM `medicos` WHERE `admin`=1 AND `id`=?";
+		$results = resultados_query($query,'i',$id);
+		$cant=mysqli_num_rows($results);
+		if ($cant == 1) {
+			return true;
+		}else{
+		return false;
+		}
+
+
+	}
 	public static function requiere_sesion($sesion=true,$permisos=true,$redireccionar=true){
 		if ($permisos) {
-			$usuario=new usersModel();
 			if (self::valid_session()) {
-				if ($usuario->tiene_permiso($_SESSION['id'])) {
+				if (self::tiene_permiso($_SESSION['id'])) {
 					return true;
 				} else {
 					return false;
@@ -161,7 +174,7 @@ class Session
 		}
 		
 	}
-	*/
+	
 
 }
  ?>

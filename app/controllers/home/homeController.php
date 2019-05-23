@@ -38,8 +38,12 @@ class homeController extends Controller
   {
     $texto=isset($_GET['t'])?htmlentities($_GET['t']):'';
     $area=isset($_GET['a'])?htmlentities($_GET['a']):null;
-    $param['resultados']=$this->model->busquedaHilo($texto,$area);
+    $asignados=(isset($_GET['m']) and is_numeric($_GET['m']) and $_GET['m']==1)? true:false;
+    $estatus=(isset($_GET['e']) and is_numeric($_GET['e']))? $_GET['e']:'';
+    $param['resultados']=$this->model->busquedaHilo($texto,$area,$estatus,$asignados);
     $param['area']=$area;
+    $param['asignados']=$asignados;
+    $param['estatus']=$estatus;
     $param['texto']=$texto;
     $param['dareas']=conversacionModel::getAreas();
     $this->render(__CLASS__,null, $param); 

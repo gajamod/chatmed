@@ -23,9 +23,8 @@ class conversacionModel{
         //         return -3
         // Else
         //     return -4
-
         if (Session::valid_session()) {
-            if ($this->existeConversacion($conversacion) {
+            if ($this->existeConversacion($conversacion)) {
                 if (!($this->existeTokenRespuesta($token,$conversacion))) {
                     $query="INSERT INTO `respuestas`( `hilo`, `respuesta`,`medico`,`token`) VALUES (?,?,?,?);";
                     $id=id_query($query,"isis",$conversacion,$respuesta,$medico,$token);
@@ -99,38 +98,39 @@ class conversacionModel{
 
     }
 
-    public static function busquedaHilo($text='',$area=null,$estatus="1"){
+    public static function busquedaHilo($text='',$area=null,$estatus="1",$asignados=true){
         //Obtiene informacion de los hilos del paciente
         $text='%'.htmlentities($text).'%';
         if (Session::valid_session()) {
-            $paciente=$_SESSION['id'];
+            $medico=$_SESSION['id'];
 
-
-
+            $vals = array();
+            $tipos = 's';
+            $addtoQuery='';
             if (is_numeric($area) and $area>=1) {
-                $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus  
-                FROM hilos h
-                inner join soport16_chatdoc.areas a on h.area=a.id
-                WHERE h.paciente=? and (h.area=?) and h.motivo like ? and estatus=?
-                ORDER BY id DESC";
-                $results=resultados_query($query,'iis',$paciente,$area,$text);
-            } else {
-                  $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus 
-                FROM hilos h
-                inner join soport16_chatdoc.areas a on h.area=a.id
-                WHERE h.paciente=? and h.motivo like ?
-                ORDER BY id DESC";
-                $results=resultados_query($query,'is',$paciente,$text);
-            }
-
+                $vals[]=$area;
+                $tipos.='i';
+                $addtoQuery.=" and (h.area=?)";
+            } 
+            if (is_numeric($estatus) and $estatus>=0) {
+                $vals[]=$estatus;
+                $tipos.='i';
+                $addtoQuery.=" and estatus=? ";
+            } 
+            if ($asignados) {
+                $vals[]=$_SESSION['id'];
+                $tipos.='i';
+                $addtoQuery.=" and h.medico=? ";
+            } 
 
 
             $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus  
                 FROM hilos h
                 inner join soport16_chatdoc.areas a on h.area=a.id
-                WHERE h.motivo like ? and h.paciente=? and (h.area=?) and  and estatus=?
+                WHERE h.motivo like ? ".$addtoQuery." 
                 ORDER BY id DESC";
-
+            $results=resultados_query($query,$tipos,$text,(isset($vals[0])?$vals[0]:null),(isset($vals[1])?$vals[1]:null),(isset($vals[2])?$vals[2]:null));
+            //mose("query",$query);
             $cant=mysqli_num_rows($results);
             if ($cant>=1) {
                 $hilos = array();

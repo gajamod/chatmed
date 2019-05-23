@@ -3,8 +3,11 @@
 	//mose("params",$this->params);
 	$texto=$this->params['texto'];
 	$areaSelected=$this->params['area'];
+	$asignadoSelected=$this->params['asignados'];
+	$estatusSelected=$this->params['estatus'];
 	$resultados=$this->params['resultados'];
 	$dareas=$this->params['dareas'];
+
 
 ?>
 
@@ -12,18 +15,30 @@
 	<div class="card bg-secondary rounded-left">
 		<div class="card-body">
 			<form class="form-inline" action="home/">
-			  <div class="form-group mx-sm-3 mb-2">
-			    <label for="namei" class="sr-only">Motivo</label>
-			    <input type="text" class="form-control form-control-lg" id="namei" placeholder="Motivo" name="t" value="<?php echo isset($texto)? $texto:''  ?>">
-			  </div>
-			  <div class="form-group ">
-		    	<select class="form-control form-control-lg" name="a">
-		    		<option value="">--- Area ---</option>
-				  <?php foreach ($dareas as $id => $area): ?>
-				  	<option value="<?php echo $id; ?>" <?php echo ($areaSelected==$id)? "selected":'' ?>><?php echo $area; ?></option>
-				  <?php endforeach ?>
-				</select>
-			</div>
+				<div class="form-group mx-sm-3 mb-2">
+				    <label for="namei" class="sr-only">Motivo</label>
+				    <input type="text" class="form-control form-control-lg" id="namei" placeholder="Motivo" name="t" value="<?php echo isset($texto)? $texto:''  ?>">
+				</div>
+				<div class="form-group ">
+			    	<select class="form-control form-control-lg " name="a">
+			    		<option value="">--- Area ---</option>
+					  <?php foreach ($dareas as $id => $area): ?>
+					  	<option value="<?php echo $id; ?>" <?php echo ($areaSelected==$id)? "selected":'' ?>><?php echo $area; ?></option>
+					  <?php endforeach ?>
+					</select>
+				</div>
+			  	<div class="form-check">
+				    <input type="checkbox" class="form-check-input form-control-lg" id="asig" <?php echo ($asignadoSelected)?'checked':'' ?> name="m" value="1" >
+				    <label class="form-check-label" for="asig">Asignados a mi</label>
+				</div>
+				<div class="form-group ">
+			    	<select class="form-control form-control-lg " name="e">
+			    		<option value="a">--- Estatus ---</option>
+					  	<option value="1" <?php echo ($estatusSelected==1)? "selected":'' ?>>Activo</option>
+					  	<option value="0" <?php echo (is_numeric($estatusSelected) and $estatusSelected==0)? "selected":'' ?>>Cerrado</option>
+					  
+					</select>
+				</div>
 			  <button type="submit" class="btn btn-primary mb-2">Buscar</button>
 			</form>
 		</div>
