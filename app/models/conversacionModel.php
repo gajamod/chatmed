@@ -9,6 +9,35 @@ class conversacionModel{
         //parent::__construct();
     }
 
+    public function asignarA($chat,$medico){
+        $query="UPDATE `hilos` SET `medico`=? WHERE `id`=?";
+        if ($this->existeConversacion($chat)) {
+            $result=afectados_query($query,"ii",$medico,$chat);
+            if ($result==1) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
+    }
+    public function cerrarConversacion($id){
+        $query="UPDATE `hilos` SET `estatus`=0, `fechaCierre`=NOW() WHERE `id`=?";
+        if ($this->existeConversacion($id)) {
+            $result=afectados_query($query,"i",$id);
+            if ($result==1) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
+        
+    }
 
     public function registrarRespuesta($respuesta,$medico,$token,$conversacion){
         $respuesta=htmlentities($respuesta);
@@ -124,9 +153,11 @@ class conversacionModel{
             } 
 
 
-            $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus  
+            $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus,h.paciente AS 'num_pac',h.medico AS 'num_dr',p.nombre AS 'n_pac',m.nombre AS 'n_dr'
                 FROM hilos h
                 inner join soport16_chatdoc.areas a on h.area=a.id
+                LEFT JOIN pacientes p ON h.paciente=p.id
+                LEFT JOIN medicos m ON h.medico=m.id
                 WHERE h.motivo like ? ".$addtoQuery." 
                 ORDER BY id DESC";
             $results=resultados_query($query,$tipos,$text,(isset($vals[0])?$vals[0]:null),(isset($vals[1])?$vals[1]:null),(isset($vals[2])?$vals[2]:null));
@@ -142,6 +173,11 @@ class conversacionModel{
                     ,'nombre_area' => $r['nombre_area']
                     ,'num_area' => $r['area']
                     ,'estatus' => $r['estatus']
+                    ,'nombre_pac' => $r['n_pac']
+                    ,'num_pac' => $r['num_pac']
+                    ,'nombre_dr' => $r['n_dr']
+                    ,'num_dr' => $r['num_dr']
+                    
                 );}
                 return $hilos;
             } else {

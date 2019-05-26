@@ -24,7 +24,7 @@ class medicoModel{
                     WHERE m.`nombre` LIKE ? AND m.`area`=?
                     ORDER BY id DESC";
                 $results=resultados_query($query,'si',$text,$area);
-                echo "akljsdkl";
+          
             } else {
                 $query="SELECT m.`id`, m.`nombre`, `cedula`, `area`, `estatus`, `correo`,a.nombre as 'nombre_area',DATE_FORMAT(fecha_registro,'%d/%b/%Y') AS 'fecha_registro'
                     FROM `medicos` m
@@ -32,7 +32,7 @@ class medicoModel{
                     WHERE m.`nombre` LIKE ?
                     ORDER BY id DESC";
                 $results=resultados_query($query,'s',$text);
-                echo("no");
+              
             }
             $cant=mysqli_num_rows($results);
             if ($cant>=1) {

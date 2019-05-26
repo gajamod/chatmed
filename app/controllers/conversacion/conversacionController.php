@@ -44,10 +44,9 @@ class conversacionController extends Controller
         //Registrar respuesta
         $mensaje=htmlentities( $_POST['msj']);
         $conversacion=htmlentities( $_POST['cht']);
-        $paciente=$_SESSION['id'];
-        $token=Session::generateToken($paciente);
-        if ($this->model->existeConversacion($conversacion,$paciente)) {
-          $resp=$this->model->registrarRespuesta($mensaje,$paciente,$token,$conversacion);
+        $token=Session::generateToken();
+        if ($this->model->existeConversacion($conversacion)) {
+          $resp=$this->model->registrarRespuesta($mensaje,$_SESSION['id'],$token,$conversacion);
           if ($resp>0) {
             //header("location: ".$conversacion);
           } else {
@@ -64,7 +63,7 @@ class conversacionController extends Controller
       } 
 
       //mostrar conversacion
-      if ($this->model->existeConversacion($params[0],$_SESSION['id'])){
+      if ($this->model->existeConversacion($params[0])){
         $param['conversacion']=$this->model->getConversacion($params[0]);
         $this->render(__CLASS__,null, $param);
       } else {

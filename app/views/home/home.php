@@ -96,6 +96,18 @@
 							<h3 class="card-title"><a href="conversacion/<?php echo $id; ?>"><?php echo $r['motivo']; ?></a> <a class=" float-right btn btn-<?php echo $estat; ?> disabled text-white"><?php echo $estatT; ?></a></h3>
 							<h4 class="card-subtitle mb-2 text-muted"><a><?php echo $r['nombre_area']; ?></a> <small class="text-right float-right"><?php echo $r['fecha']; ?></small></h4>
 							<hr class="bg-<?php echo $borde; ?>">
+							<div class="table-responsive-sm">
+							  <table class="table">
+							    <tr>
+							    	<th>Paciente:</th>
+							    	<td><a href="paciente/<?php echo $r['num_pac']; ?>"><?php echo $r['nombre_pac']; ?></a></td>
+							    </tr>
+							    <tr>
+							    	<th>Medico:</th>
+							    	<td><a href="medico/<?php echo empty($r['nombre_dr'])? '':$r['num_dr']; ?>"><?php echo empty($r['nombre_dr'])? "Sin Asignar":$r['nombre_dr']; ?></a></td>
+							    </tr>
+							  </table>
+							</div>
 						</a>
 						</div>
 					</div>
