@@ -7,7 +7,7 @@
 	$estatusSelected=$this->params['estatus'];
 	$resultados=$this->params['resultados'];
 	$dareas=$this->params['dareas'];
-
+	$dmedicos=$this->params['dmedicos'];
 
 ?>
 
@@ -27,16 +27,22 @@
 					  <?php endforeach ?>
 					</select>
 				</div>
-			  	<div class="form-check">
-				    <input type="checkbox" class="form-check-input form-control-lg" id="asig" <?php echo ($asignadoSelected)?'checked':'' ?> name="m" value="1" >
-				    <label class="form-check-label" for="asig">Asignados a mi</label>
-				</div>
 				<div class="form-group ">
 			    	<select class="form-control form-control-lg " name="e">
 			    		<option value="a">--- Estatus ---</option>
 					  	<option value="1" <?php echo ($estatusSelected==1)? "selected":'' ?>>Activo</option>
 					  	<option value="0" <?php echo (is_numeric($estatusSelected) and $estatusSelected==0)? "selected":'' ?>>Cerrado</option>
 					  
+					</select>
+				</div>
+				<div class="form-group ">
+			    	<select class="form-control form-control-lg " name="m">
+			    		<option value="">--- Medico ---</option>
+			    		<option value="<?php echo $_SESSION['id']; ?>" <?php echo ($asignadoSelected==$_SESSION['id'])? "selected":'' ?>>Asignado a Mi</option>
+			    		<option value="0" <?php echo ($asignadoSelected==0)? "selected":'' ?>>Sin Asignar</option>
+					  <?php foreach ($dmedicos as $id => $medico): ?>
+					  	<option value="<?php echo $id; ?>" <?php echo ($asignadoSelected==$id and $id!=$_SESSION['id'])? "selected":'' ?>><?php echo $medico; ?></option>
+					  <?php endforeach ?>
 					</select>
 				</div>
 			  <button type="submit" class="btn btn-primary mb-2">Buscar</button>

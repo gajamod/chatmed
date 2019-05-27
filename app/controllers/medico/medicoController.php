@@ -39,26 +39,31 @@ class medicoController extends Controller
       
 
       //mostrar medico
-      
-      $texto=isset($_GET['t'])?htmlentities($_GET['t']):'';
-      $area=isset($_GET['a'])?htmlentities($_GET['a']):null;
-      $param['resultados']=$this->model->busquedaMedico($texto,$area);
-      $param['area']=$area;
-      $param['texto']=$texto;
-      $param['dareas']=conversacionModel::getAreas();
-      $this->render(__CLASS__,null, $param); 
-      /**
-
-      ** TODO: Crear vista medico especifico
-
-      if ($this->model->existeMedico($params[0])){
-        $param['conversacion']=$this->model->getInfo($params[0]);
-        $this->render(__CLASS__,null, $param);
+      if (isset($params[0]) and is_numeric($params[0]) and $params[0]>=1) {
+        if($this->model->existeMedico($params[0])){
+          $param['medico']=$this->model->getInfo($params[0]);
+          $this->render(__CLASS__,"info", $param);
+        } else {
+          $params['msg'] = "No se encontro el medico";
+          $this->render(__CLASS__,"back", $params);
+        }
       } else {
-        $params['msg'] = "No se encontro el medico";
-        $this->render(__CLASS__,"back", $params);
+          $texto=isset($_GET['t'])?htmlentities($_GET['t']):'';
+          $area=isset($_GET['a'])?htmlentities($_GET['a']):null;
+          $param['resultados']=$this->model->busquedaMedico($texto,$area);
+          $param['area']=$area;
+          $param['texto']=$texto;
+          $param['dareas']=conversacionModel::getAreas();
+          $this->render(__CLASS__,null, $param); 
       }
-      */
+      
+       
+      
+
+      
+
+       
+      
 
     } else {
       $params['msg'] = "No tienes permiso de estar aqui";

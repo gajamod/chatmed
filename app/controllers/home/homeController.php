@@ -38,7 +38,7 @@ class homeController extends Controller
   {
     $texto=isset($_GET['t'])?htmlentities($_GET['t']):'';
     $area=isset($_GET['a'])?htmlentities($_GET['a']):null;
-    $asignados=(isset($_GET['m']) and is_numeric($_GET['m']) and $_GET['m']==1)? true:false;
+    $asignados=(isset($_GET['m']) and is_numeric($_GET['m']) and $_GET['m']>=0)? (($_GET['m']>=1)?$_GET['m']:null):false;
     $estatus=(isset($_GET['e']) and is_numeric($_GET['e']))? $_GET['e']:'';
     $param['resultados']=$this->model->busquedaHilo($texto,$area,$estatus,$asignados);
     $param['area']=$area;
@@ -46,6 +46,7 @@ class homeController extends Controller
     $param['estatus']=$estatus;
     $param['texto']=$texto;
     $param['dareas']=conversacionModel::getAreas();
+    $param['dmedicos']=medicoModel::getMedicos();
     $this->render(__CLASS__,null, $param); 
   }
 

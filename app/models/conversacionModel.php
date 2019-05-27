@@ -127,7 +127,7 @@ class conversacionModel{
 
     }
 
-    public static function busquedaHilo($text='',$area=null,$estatus="1",$asignados=true){
+    public static function busquedaHilo($text='',$area=null,$estatus="1",$asignados=false){
         //Obtiene informacion de los hilos del paciente
         $text='%'.htmlentities($text).'%';
         if (Session::valid_session()) {
@@ -146,11 +146,13 @@ class conversacionModel{
                 $tipos.='i';
                 $addtoQuery.=" and estatus=? ";
             } 
-            if ($asignados) {
-                $vals[]=$_SESSION['id'];
+            if (is_numeric($asignados) and $asignados>=1 ) {
+                $vals[]=$asignados;
                 $tipos.='i';
                 $addtoQuery.=" and h.medico=? ";
-            } 
+            }elseif ($asignados==null) {
+                $addtoQuery.=" and h.medico IS NULL ";
+            }
 
 
             $query="SELECT h.id,h.motivo,h.area,a.nombre as 'nombre_area',h.fechacreacion,h.estatus,h.paciente AS 'num_pac',h.medico AS 'num_dr',p.nombre AS 'n_pac',m.nombre AS 'n_dr'
