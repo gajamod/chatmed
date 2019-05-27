@@ -91,17 +91,23 @@ switch ($inf['num_area']) {
 	</div>
 </div>
 <div class="row">
-	<div class="table-responsive col-md-6">
+	<div class="table-responsive col-md-4">
 		  <table class="table">
 		    <tr>
 		    	<th>Universidad</th>
 		    	<td>UAQ</td>
-		    	<th>Correo</th>
-		    	<td><?php echo $inf['correo'] ?></td>
+		    	
 		    </tr>
 		    <tr>
 		    	<th>Cedula</th>
 		    	<td><?php echo $inf['cedula'] ?></td>
+		    	
+		    </tr>
+		    <tr>
+		    	<th>Correo</th>
+		    	<td><?php echo $inf['correo'] ?></td>
+		    </tr>
+		    <tr>
 		    	<th>Fecha Registro</th>
 		    	<td><?php echo $inf['fecha'] ?></td>
 		    </tr>

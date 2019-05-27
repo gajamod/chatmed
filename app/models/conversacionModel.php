@@ -150,7 +150,7 @@ class conversacionModel{
                 $vals[]=$asignados;
                 $tipos.='i';
                 $addtoQuery.=" and h.medico=? ";
-            }elseif ($asignados==null) {
+            }elseif ($asignados==0) {
                 $addtoQuery.=" and h.medico IS NULL ";
             }
 
